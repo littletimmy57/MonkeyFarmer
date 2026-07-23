@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Gardener</AssemblyName>
+    <RootNamespace>Gardener</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <BloonsTD6Path>X:\Steam\steamapps\common\BloonsTD6</BloonsTD6Path>
+    <BloonsTD6ModsPath>$(BloonsTD6Path)\Mods</BloonsTD6ModsPath>
+    <CopyToModsFolder Condition="'$(CopyToModsFolder)' == ''">true</CopyToModsFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="**\*-scarry-desktop.cs" />
+    <Compile Remove="obj\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Btd6ModHelper">
+      <HintPath>$(BloonsTD6Path)\Mods\Btd6ModHelper.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MelonLoader">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\net6\MelonLoader.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Runtime">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\net6\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Il2CppNinjaKiwi.Common">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\Il2CppAssemblies\Il2CppNinjaKiwi.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\Il2CppAssemblies\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(BloonsTD6Path)\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CopyToBloonsModsFolder" AfterTargets="Build" Condition="'$(CopyToModsFolder)' == 'true'">
+    <MakeDir Directories="$(BloonsTD6ModsPath)" Condition="!Exists('$(BloonsTD6ModsPath)')" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(BloonsTD6ModsPath)\$(TargetFileName)" SkipUnchangedFiles="false" />
+  </Target>
+</Project>
